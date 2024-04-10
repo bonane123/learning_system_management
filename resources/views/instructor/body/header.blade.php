@@ -374,7 +374,7 @@
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile') }}"><i
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('instructor.profile') }}"><i
                                 class="bx bx-user fs-5"></i><span>Profile</span></a>
                     </li>
                     <li><a class="dropdown-item d-flex align-items-center"
@@ -393,7 +393,7 @@
                     <li>
                         <div class="dropdown-divider mb-0"></div>
                     </li>
-                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('admin.logout') }}"><i
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('instructor.logout') }}"><i
                                 class="bx bx-log-out-circle"></i><span>Logout</span></a>
                     </li>
                 </ul>

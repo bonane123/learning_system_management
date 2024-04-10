@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/icons.css') }}" rel="stylesheet">
-    <title>Admin Login</title>
+    <title>Instructor Login</title>
 </head>
 
 <body class="">
@@ -51,7 +51,7 @@
                                             alt="">
                                     </div>
                                     <div class="text-center mb-4">
-                                        <h5 class="">Admin Login</h5>
+                                        <h5 class="">Instructor Login</h5>
                                         <p class="mb-0">Please log in to your account</p>
                                     </div>
                                     <div class="form-body">
