@@ -61,7 +61,7 @@
                                                 <label for="inputEmailAddress" class="form-label">Email</label>
                                                 <input type="email" id="email" name="email"
                                                     class="form-control @error('email') is-invalid @enderror"
-                                                    id="inputEmailAddress" placeholder="jhon@example.com">
+                                                    id="inputEmailAddress" placeholder="jhon@example.com" autofocus />
                                                 @error('email')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -73,7 +73,7 @@
                                                 ="show_hide_password">
                                                     <input type="password" id="password" name="password"
                                                         class="form-control border-end-0 @error('password') is-invalid @enderror"
-                                                        id="inputChoosePassword" placeholder="Enter Password">
+                                                        id="inputChoosePassword" placeholder="Enter Password" />
                                                     @error('password')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror <a href="javascript:;"
