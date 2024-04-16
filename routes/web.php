@@ -65,9 +65,17 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/update/subcategory', 'UpdateSubCategory')->name('update.subcategory');
         Route::get('/delete/subcategory/{id}', 'DeleteSubCategory')->name('delete.subcategory');
     });
+
+    // Instructor All Route
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/all/instructor', 'AllInstructor')->name('all.instructor');
+        Route::post('/update/user/status', 'UpdateUserStatus')->name('update.user.status');
+    });
 }); // End Admin Group Middleware
 
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
+Route::get('/become/instructor', [AdminController::class, 'BecomeIntructor'])->name('become.instructor');
+Route::post('/instructor/register', [AdminController::class, 'InstructorRegister'])->name('instructor.register');
 
 ////// Instructor Group Middleware
 Route::middleware('auth', 'roles:instructor')->group(function () {
