@@ -149,13 +149,163 @@
 
                     <div class="col-md-12">
                         <div class="d-md-flex d-grid align-items-center gap-3">
-                            <button type="submit" class="btn btn-primary px-4">Submit</button>
+                            <button type="submit" class="btn btn-primary px-4">Save changes</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+
+    {{-- //// Start Main Course Image Update /// --}}
+
+    <div class="page-content">
+        <div class="card">
+            <div class="card-body">
+
+                <form action="{{ route('update.course.image') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $course->id }}">
+                    <input type="hidden" name="old_img" value="{{ $course->course_image }}">
+
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="input2" class="form-label">Course Image </label>
+                            <input class="form-control" name="course_image" type="file" id="image">
+                        </div>
+
+                        <div class="col-md-6">
+                            <img id="showImage" src="{{ asset($course->course_image) }}" alt="Admin"
+                                class="rounded-circle p-1 bg-primary" width="100" required>
+                        </div>
+                    </div>
+
+                    <br><br>
+                    <div class="col-md-12">
+                        <div class="d-md-flex d-grid align-items-center gap-3">
+                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    {{-- //// Start Main Course Image Update /// --}}
+
+    {{-- //// Start Main Course Vidoe Update /// --}}
+
+    <div class="page-content">
+        <div class="card">
+            <div class="card-body">
+
+                <form action="{{ route('update.course.video') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="vid" value="{{ $course->id }}">
+                    <input type="hidden" name="old_vid" value="{{ $course->video }}">
+
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="input2" class="form-label">Course Intro Video </label>
+                            <input type="file" name="video" class="form-control" accept="video/mp4, video/webm">
+                        </div>
+
+                        <div class="col-md-6">
+                            <video width="300" height="130" controls>
+                                <source src="{{ asset($course->video) }}" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+
+                    <br><br>
+                    <div class="col-md-12">
+                        <div class="d-md-flex d-grid align-items-center gap-3">
+                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    {{-- //// Start Main Course Goals Update /// --}}
+
+    <div class="page-content">
+        <div class="card">
+            <div class="card-body">
+
+                <form action="{{ route('update.course.goal') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+
+                    <input type="hidden" name="id" value="{{ $course->id }}" />
+                    <!--   //////////// Goal Option /////////////// -->
+                    @foreach ($goals as $item)
+                        <div class="row add_item">
+                            <div class="whole_extra_item_delete" id="whole_extra_item_delete">
+                                <div class="container mt-2">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="goals" class="form-label"> Goals </label>
+                                                <input type="text" name="course_goals[]" id="goals"
+                                                    class="form-control" value="{{ $item->goal_name }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6" style="padding-top: 30px;">
+                                            <a class="btn btn-primary addeventmore"><i class="fa fa-plus-circle"></i> Add
+                                                More..</a>
+
+                                            <span class="btn btn-danger btn-sm removeeventmore"><i
+                                                    class="fa fa-minus-circle">Remove</i></span>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!---end row-->
+                    @endforeach
+
+                    <!--   //////////// End Goal Option /////////////// -->
+
+
+                    <br><br>
+                    <div class="col-md-12">
+                        <div class="d-md-flex d-grid align-items-center gap-3">
+                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+
+                        </div>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    {{-- //// Start Main Course Vidoe Update /// --}}
+
+
+
+
+
+
 
 
     <!--========== Start of add multiple class with ajax ==============-->
@@ -199,60 +349,6 @@
         });
     </script>
     <!--========== End of add multiple class with ajax ==============-->
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#myForm').validate({
-                rules: {
-                    course_name: {
-                        required: true,
-                    },
-                    course_image: {
-                        required: true,
-                    },
-                    course_title: {
-                        required: true,
-                    },
-
-                },
-                messages: {
-                    course_name: {
-                        required: 'Please Enter Course Name',
-                    },
-                    course_image: {
-                        required: 'Please upload Course Image',
-                    },
-                    course_title: {
-                        required: 'Please Enter Course Title',
-                    },
-
-
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                },
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#image').change(function(e) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#showImage').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(e.target.files['0']);
-            })
-        })
-    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="category_id"]').on('change', function() {
@@ -271,11 +367,57 @@
                                     .subcategory_name + '</option>');
                             });
                         },
-
                     });
                 } else {
                     alert('danger');
                 }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    course_name: {
+                        required: true,
+                    },
+                    course_title: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    course_name: {
+                        required: 'Please Enter Course Name',
+                    },
+                    course_title: {
+                        required: 'Please Enter Course Titile',
+                    },
+
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files['0']);
             });
         });
     </script>
