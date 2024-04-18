@@ -46,9 +46,12 @@
                                     <td>{{ $item->selling_price }}</td>
                                     <td>{{ $item->discount_price }}</td>
                                     <td>
-                                        <a href="{{ route('edit.course', $item->id) }}" class="btn btn-info px-4">Edit</a>
+                                        <a href="{{ route('edit.course', $item->id) }}" class="btn btn-info px-4"
+                                            title="Edit"><i class="lni lni-eraser"></i></a>
                                         <a href="{{ route('delete.course', $item->id) }}" class="btn btn-danger px-4"
-                                            id="delete">Delete</a>
+                                            id="delete" title="Delete"><i class="lni lni-trash"></i></a>
+                                        <a href="{{ route('add.course.lecture', $item->id) }}"
+                                            class="btn btn-warning px-4"><i class="lni lni-list" title="Lecture"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
