@@ -1,8 +1,8 @@
 @extends('frontend.master')
 @section('home')
     <!-- ================================
-                                                                                                                                                                                                                                                                                                                    START BREADCRUMB AREA
-                                                                                                                                                                                                                                                                                                                ================================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                        START BREADCRUMB AREA
+                                                                                                                                                                                                                                                                                                                                                                                                                    ================================= -->
     <section class="breadcrumb-area pt-50px pb-50px bg-white pattern-bg">
         <div class="container">
             <div class="col-lg-8 mr-auto">
@@ -74,12 +74,12 @@
         </div><!-- end container -->
     </section><!-- end breadcrumb-area -->
     <!-- ================================
-                                                                                                                                                                                                                                                                                                                    END BREADCRUMB AREA
-                                                                                                                                                                                                                                                                                                                ================================= -->
+                                                                                                                                                                                                                                                                                                                                                                                                                        END BREADCRUMB AREA
+                                                                                                                                                                                                                                                                                                                                                                                                                    ================================= -->
 
     <!--======================================
-                                                                                                                                                                                                                                                                                                                        START COURSE DETAILS AREA
-                                                                                                                                                                                                                                                                                                                ======================================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                            START COURSE DETAILS AREA
+                                                                                                                                                                                                                                                                                                                                                                                                                    ======================================-->
     <section class="course-details-area pb-20px">
         <div class="container">
             <div class="row">
@@ -219,7 +219,8 @@
                                             <li><i class="la la-star mr-2 text-color-3"></i> 4.6 Instructor Rating</li>
                                             <li><i class="la la-user mr-2 text-color-3"></i> 45,786 Students</li>
                                             <li><i class="la la-comment-o mr-2 text-color-3"></i> 2,533 Reviews</li>
-                                            <li><i class="la la-play-circle-o mr-2 text-color-3"></i> 24 Courses</li>
+                                            <li><i class="la la-play-circle-o mr-2 text-color-3"></i>
+                                                {{ count($instructorCourses) }} Courses</li>
                                             <li><a href="teacher-detail.html">View all Courses</a></li>
                                         </ul>
                                     </div><!-- end instructor-img -->
@@ -507,8 +508,9 @@
                             <div class="card-body">
                                 <div class="preview-course-video">
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#previewModal">
-                                        <img src="images/img-loading.png" data-src="images/preview-img.jpg"
-                                            alt="course-img" class="w-100 rounded lazy">
+                                        <img src="{{ asset($course->course_image) }}"
+                                            data-src="{{ asset($course->course_image) }}" alt="course-img"
+                                            class="w-100 rounded lazy">
                                         <div class="preview-course-video-content">
                                             <div class="overlay"></div>
                                             <div class="play-button">
@@ -539,11 +541,24 @@
                                         </div>
                                     </a>
                                 </div><!-- end preview-course-video -->
+                                @php
+                                    $amount = $course->selling_price - $course->discount_price;
+                                    $discount = ($amount / $course->selling_price) * 100;
+                                @endphp
                                 <div class="preview-course-feature-content pt-40px">
                                     <p class="d-flex align-items-center pb-2">
-                                        <span class="fs-35 font-weight-semi-bold text-black">$76.99</span>
-                                        <span class="before-price mx-1">$104.99</span>
-                                        <span class="price-discount">24% off</span>
+                                        @if ($course->discount_price == null)
+                                            <span class="fs-24 font-weight-semi-bold text-black">RWF
+                                                {{ $course->selling_price }}</span>
+                                        @else
+                                            <span class="fs-24 font-weight-semi-bold text-black">RWF
+                                                {{ $course->discount_price }}</span>
+                                            <span class="before-price mx-1">RWF
+                                                {{ $course->selling_price }}</span>
+                                        @endif
+
+                                        <span class="price-discount">
+                                            {{ round($discount) }}% off</span>
                                     </p>
                                     <p class="preview-price-discount-text pb-35px">
                                         <span class="text-color-3">4 days</span> left at this price!
@@ -558,10 +573,12 @@
                                     <div class="preview-course-incentives">
                                         <h3 class="card-title fs-18 pb-2">This course includes</h3>
                                         <ul class="generic-list-item pb-3">
-                                            <li><i class="la la-play-circle-o mr-2 text-color"></i>2.5 hours on-demand
+                                            <li><i class="la la-play-circle-o mr-2 text-color"></i>{{ $course->duration }}
+                                                hours on-demand
                                                 video</li>
                                             <li><i class="la la-file mr-2 text-color"></i>34 articles</li>
-                                            <li><i class="la la-file-text mr-2 text-color"></i>12 downloadable resources
+                                            <li><i class="la la-file-text mr-2 text-color"></i>{{ $course->resources }}
+                                                downloadable resources
                                             </li>
                                             <li><i class="la la-code mr-2 text-color"></i>51 coding exercises</li>
                                             <li><i class="la la-key mr-2 text-color"></i>Full lifetime access</li>
@@ -589,11 +606,12 @@
                                 <div class="divider"><span></span></div>
                                 <ul class="generic-list-item generic-list-item-flash">
                                     <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-clock mr-2 text-color"></i>Duration</span> 2.5 hours</li>
+                                                class="la la-clock mr-2 text-color"></i>Duration</span>
+                                        {{ $course->duration }} hours</li>
+
                                     <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-play-circle-o mr-2 text-color"></i>Lectures</span> 17</li>
-                                    <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-file-text-o mr-2 text-color"></i>Resources</span> 12</li>
+                                                class="la la-file-text-o mr-2 text-color"></i>Resources</span>
+                                        {{ $course->resources }}</li>
                                     <li class="d-flex align-items-center justify-content-between"><span><i
                                                 class="la la-bolt mr-2 text-color"></i>Quizzes</span> 26</li>
                                     <li class="d-flex align-items-center justify-content-between"><span><i
@@ -601,12 +619,14 @@
                                     <li class="d-flex align-items-center justify-content-between"><span><i
                                                 class="la la-language mr-2 text-color"></i>Language</span> English</li>
                                     <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-lightbulb mr-2 text-color"></i>Skill level</span> All levels
+                                                class="la la-lightbulb mr-2 text-color"></i>Skill level</span>
+                                        {{ $course->label }}
                                     </li>
                                     <li class="d-flex align-items-center justify-content-between"><span><i
                                                 class="la la-users mr-2 text-color"></i>Students</span> 30,506</li>
                                     <li class="d-flex align-items-center justify-content-between"><span><i
-                                                class="la la-certificate mr-2 text-color"></i>Certificate</span> Yes</li>
+                                                class="la la-certificate mr-2 text-color"></i>Certificate</span>
+                                        {{ $course->certificate }}</li>
                                 </ul>
                             </div>
                         </div><!-- end card -->
@@ -696,12 +716,12 @@
         </div><!-- end container -->
     </section><!-- end course-details-area -->
     <!--======================================
-                                                                                                                                                                                                                                                                                                                        END COURSE DETAILS AREA
-                                                                                                                                                                                                                                                                                                                ======================================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                            END COURSE DETAILS AREA
+                                                                                                                                                                                                                                                                                                                                                                                                                    ======================================-->
 
     <!--======================================
-                                                                                                                                                                                                                                                                                                                        START RELATED COURSE AREA
-                                                                                                                                                                                                                                                                                                                ======================================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                            START RELATED COURSE AREA
+                                                                                                                                                                                                                                                                                                                                                                                                                    ======================================-->
     <section class="related-course-area bg-gray pt-60px pb-60px">
         <div class="container">
             <div class="related-course-wrap">
@@ -715,7 +735,8 @@
                         @endphp
                         <div class="card card-item">
                             <div class="card-image">
-                                <a href="course-details.html" class="d-block">
+                                <a href="{{ url('course/details/' . $inscourse->id . '/' . $inscourse->course_slug) }}"
+                                    class="d-block">
                                     <img class="card-img-top" src="{{ asset($inscourse->course_image) }}"
                                         alt="Card image cap">
                                 </a>
@@ -728,11 +749,12 @@
                                 </div>
                             </div><!-- end card-image -->
                             <div class="card-body">
-                                <h6 class="ribbon ribbon-blue-bg fs-14 mb-3">All Levels</h6>
-                                <h5 class="card-title"><a href="course-details.html">The Business Intelligence Analyst
-                                        Course
+                                <h6 class="ribbon ribbon-blue-bg fs-14 mb-3">{{ $inscourse->label }}</h6>
+                                <h5 class="card-title"><a
+                                        href="{{ url('course/details/' . $inscourse->id . '/' . $inscourse->course_slug) }}">{{ $inscourse->course_name }}
                                         2021</a></h5>
-                                <p class="card-text"><a href="teacher-detail.html">Jose Portilla</a></p>
+                                <p class="card-text"><a href="teacher-detail.html">{{ $inscourse['user']['name'] }}</a>
+                                </p>
                                 <div class="rating-wrap d-flex align-items-center py-2">
                                     <div class="review-stars">
                                         <span class="rating-number">4.4</span>
@@ -745,8 +767,20 @@
                                     <span class="rating-total pl-1">(20,230)</span>
                                 </div><!-- end rating-wrap -->
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="card-price text-black font-weight-bold">12.99 <span
-                                            class="before-price font-weight-medium">129.99</span></p>
+
+                                    @if ($inscourse->discount_price == null)
+                                        <p class="card-price text-black font-weight-bold">
+                                            RWF {{ $inscourse->selling_price }} </p>
+                                    @else
+                                        <p class="card-price text-black font-weight-bold">
+                                            RWF {{ $inscourse->discount_price }} <span
+                                                class="before-price font-weight-medium">RWF
+                                                {{ $inscourse->selling_price }}</span>
+                                        </p>
+                                    @endif
+
+
+
                                     <div class="icon-element icon-element-sm shadow-sm cursor-pointer"
                                         title="Add to Wishlist"><i class="la la-heart-o"></i></div>
                                 </div>
@@ -759,8 +793,8 @@
         </div><!-- end container -->
     </section><!-- end related-course-area -->
     <!--======================================
-                                                                                                                                                                                                                                                                                                                        END RELATED COURSE AREA
-                                                                                                                                                                                                                                                                                                                ======================================-->
+                                                                                                                                                                                                                                                                                                                                                                                                                            END RELATED COURSE AREA
+                                                                                                                                                                                                                                                                                                                                                                                                                    ======================================-->
 
     <!-- Modal -->
     <div class="modal fade modal-container" id="shareModal" tabindex="-1" role="dialog"
@@ -805,23 +839,18 @@
                 <div class="modal-header border-bottom-gray">
                     <div class="pr-2">
                         <p class="pb-2 font-weight-semi-bold">Course Preview</p>
-                        <h5 class="modal-title fs-19 font-weight-semi-bold lh-24" id="previewModalTitle">Java Programming
-                            Masterclass for Software Developers</h5>
+                        <h5 class="modal-title fs-19 font-weight-semi-bold lh-24" id="previewModalTitle">
+                            {{ $course->course_name }}</h5>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="la la-times"></span>
                     </button>
                 </div><!-- end modal-header -->
                 <div class="modal-body">
-                    <video controls crossorigin playsinline
-                        poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+                    <video controls crossorigin playsinline poster="{{ asset($course->course_image) }}" id="player">
                         <!-- Video files -->
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                            type="video/mp4" />
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"
-                            type="video/mp4" />
-                        <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4"
-                            type="video/mp4" />
+                        <source src="{{ asset($course->video) }}" type="video/mp4" />
+
                     </video>
                 </div><!-- end modal-body -->
             </div><!-- end modal-content -->
