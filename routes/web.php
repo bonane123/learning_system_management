@@ -118,4 +118,5 @@ Route::middleware('auth', 'roles:instructor')->group(function () {
 ///// Route accessable for All //////////
 Route::get('/instructor/login', [InstructorController::class, 'InstructorLogin'])->name('instructor.login');
 Route::get('/course/details/{id}/{slug}', [IndexController::class, 'CourseDetails']);
+Route::get('/category/{category_id}/{slug}', [IndexController::class, 'CategoryCourse']);
  ///// End Route accessable for All //////////
