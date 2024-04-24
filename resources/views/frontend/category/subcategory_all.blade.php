@@ -1,30 +1,31 @@
 @extends('frontend.master')
 @section('home')
     <!-- ================================
-                                                                                                    START BREADCRUMB AREA
-                                                                                                ================================= -->
+                                                                                                                                START BREADCRUMB AREA
+                                                                                                                            ================================= -->
     <section class="breadcrumb-area section-padding img-bg-2">
         <div class="overlay"></div>
         <div class="container">
             <div class="breadcrumb-content d-flex flex-wrap align-items-center justify-content-between">
                 <div class="section-heading">
-                    <h2 class="section__title text-white">{{ $category->category_name }}</h2>
+                    <h2 class="section__title text-white">{{ $subcategory->subcategory_name }}</h2>
                 </div>
                 <ul
                     class="generic-list-item generic-list-item-white generic-list-item-arrow d-flex flex-wrap align-items-center">
                     <li><a href="index.html">Home</a></li>
-                    <li>{{ $category->category_name }}</li>
+                    <li>{{ $subcategory['category']['category_name'] }}</li>
+                    <li>{{ $subcategory->subcategory_name }}</li>
                 </ul>
             </div><!-- end breadcrumb-content -->
         </div><!-- end container -->
     </section><!-- end breadcrumb-area -->
     <!-- ================================
-                                                                                                    END BREADCRUMB AREA
-                                                                                                ================================= -->
+                                                                                                                                END BREADCRUMB AREA
+                                                                                                                            ================================= -->
 
     <!--======================================
-                                                                                                        START COURSE AREA
-                                                                                                ======================================-->
+                                                                                                                                    START COURSE AREA
+                                                                                                                            ======================================-->
     <section class="course-area section--padding">
         <div class="container">
             <div class="filter-bar mb-4">
