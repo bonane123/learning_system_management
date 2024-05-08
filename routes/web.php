@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\WishListController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\WishList;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,8 +38,14 @@ Route::middleware('auth')->group(function () {
     Route::get('user/logout', [UserController::class, 'UserLogout'])->name('user.logout');
     Route::get('user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::post('user/password/update', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
+
+    // User Wishlist All Route
+    Route::controller(WishListController::class)->group(function () {
+        Route::get('/user/wishlist', 'AllWishlist')->name('user.wishlist');
+    });
 });
 
+// End Auth Middleware
 
 require __DIR__ . '/auth.php';
 /////// Admin Group Middleware
