@@ -122,3 +122,26 @@
      /// End WishList Remove // 
  </script>
  {{-- /// End Load Wishlist Data // --}}
+
+
+ {{-- Start Add To Cart --}}
+ <script type="text/javascript">
+     function AddToCart(courseId, courseName, instructorId, slug) {
+         $.ajax({
+             type: "POST",
+             dataType: "JSON",
+             data: {
+                 _token: '{{ csrf_token() }}',
+                 course_name: courseName,
+                 course_slug: slug,
+                 instructor: instructorId
+             },
+
+             url: "/cart/data/store/" + courseId,
+             success: function(data) {
+
+             }
+         })
+     }
+ </script>
+ {{-- End Add To Cart --}}
