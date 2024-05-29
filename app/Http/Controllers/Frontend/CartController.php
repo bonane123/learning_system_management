@@ -41,9 +41,23 @@ class CartController extends Controller
                 'options' => [
                     'image' => $course->course_image,
                     'slug' => $request->course_slug,
-                    'instructor' => $course->course_slug,
+                    'instructor' => $request->instructor,
+                ]
+            ]);
+        } else {
+            Cart::add([
+                'id' => $id,
+                'name' => $request->course_name,
+                'qty' => 1,
+                'price' => $course->discount_price,
+                'weight' => 1,
+                'options' => [
+                    'image' => $course->course_image,
+                    'slug' => $request->course_slug,
+                    'instructor' => $request->instructor,
                 ]
             ]);
         }
+        return response()->json(['success' => 'Successfully Added on Your Cart']);
     }
 }
