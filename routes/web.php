@@ -134,4 +134,5 @@ Route::get('/subcategory/{id}/{slug}', [IndexController::class, 'SubCategoryCour
 Route::get('/instructor/details/{id}', [IndexController::class, 'InstructorDetails'])->name('instructor.details');
 Route::post('/add-to-wishlist/{course_id}', [WishListController::class, 'AddToWishList']);
 Route::post('/cart/data/store/{id}', [CartController::class, 'AddToCart']);
+Route::get('/cart/data/', [CartController::class, 'CartData']);
  ///// End Route accessable for All //////////
