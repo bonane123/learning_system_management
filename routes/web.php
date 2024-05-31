@@ -135,4 +135,8 @@ Route::get('/instructor/details/{id}', [IndexController::class, 'InstructorDetai
 Route::post('/add-to-wishlist/{course_id}', [WishListController::class, 'AddToWishList']);
 Route::post('/cart/data/store/{id}', [CartController::class, 'AddToCart']);
 Route::get('/cart/data/', [CartController::class, 'CartData']);
+
+// Get Data from Minicart
+Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
+Route::get('/minicart/course/remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
  ///// End Route accessable for All //////////
