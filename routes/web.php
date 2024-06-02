@@ -84,7 +84,14 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/all/instructor', 'AllInstructor')->name('all.instructor');
         Route::post('/update/user/status', 'UpdateUserStatus')->name('update.user.status');
     });
-});
+
+    // Admin Courses All Route
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('/admin/all/course', 'AdminAllCourse')->name('admin.all.course');
+        Route::post('/update/course/status', 'UpdateCourseStatus')->name('update.course.status');
+        Route::get('/admin/course/details/{id}', 'AdminCourseDetails')->name('admin.course.details');
+    });
+}); // End Admin Group Middleware
 
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
 Route::get('/become/instructor', [AdminController::class, 'BecomeIntructor'])->name('become.instructor');

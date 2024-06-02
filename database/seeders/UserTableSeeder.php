@@ -14,39 +14,16 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
-            // Admin Data
+        DB::table('users')->where('email', 'admin@gmail.com')->update([
+            'password' => Hash::make('111'),
+        ]);
 
-            [
-                'name' => 'Admin',
-                'username' => 'admin',
-                'email' => 'admin@gmail.com',
-                'password' => Hash::make('111'),
-                'role' => 'admin',
-                'status' => '1',
-            ],
+        DB::table('users')->where('email', 'instructor@gmail.com')->update([
+            'password' => Hash::make('111'),
+        ]);
 
-            // Instructor Data
-
-            [
-                'name' => 'Instructor',
-                'username' => 'instrutor',
-                'email' => 'instructor@gmail.com',
-                'password' => Hash::make('111'),
-                'role' => 'instructor',
-                'status' => '1',
-            ],
-
-            //User Data
-
-            [
-                'name' => 'User',
-                'username' => 'user',
-                'email' => 'user@gmail.com',
-                'password' => Hash::make('111'),
-                'role' => 'user',
-                'status' => '1',
-            ]
+        DB::table('users')->where('email', 'user@gmail.com')->update([
+            'password' => Hash::make('111'),
         ]);
     }
 }
