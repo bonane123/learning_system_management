@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -85,11 +86,21 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/update/user/status', 'UpdateUserStatus')->name('update.user.status');
     });
 
-    // Admin Courses All Route
+    // Admin Course All Route
     Route::controller(AdminController::class)->group(function () {
         Route::get('/admin/all/course', 'AdminAllCourse')->name('admin.all.course');
         Route::post('/update/course/status', 'UpdateCourseStatus')->name('update.course.status');
         Route::get('/admin/course/details/{id}', 'AdminCourseDetails')->name('admin.course.details');
+    });
+
+    // Admin Coupon All Route
+    Route::controller(CouponController::class)->group(function () {
+        Route::get('/admin/all/coupon', 'AdminAllCoupon')->name('admin.all.coupon');
+        Route::get('/admin/add/coupon', 'AdminAddCoupon')->name('admin.add.coupon');
+        Route::post('/admin/store/coupon', 'AdminStoreCoupon')->name('admin.store.coupon');
+        Route::get('/admin/edit/coupon/{id}', 'AdminEditCoupon')->name('admin.edit.coupon');
+        Route::post('/admin/update/coupon', 'AdminUpdateCoupon')->name('admin.update.coupon');
+        Route::get('/admin/delete/coupon/{id}', 'AdminDeleteCoupon')->name('admin.delete.coupon');
     });
 }); // End Admin Group Middleware
 
