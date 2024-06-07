@@ -157,6 +157,7 @@ Route::get('/cart/data/', [CartController::class, 'CartData']);
 // Get Data from Minicart
 Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
 Route::get('/minicart/course/remove/{rowId}', [CartController::class, 'RemoveMiniCart']);
+Route::get('/course/mini/cart/', [CartController::class, 'AddMiniCart']);
 
 // Cart All Route
 Route::controller(CartController::class)->group(function () {
@@ -164,4 +165,8 @@ Route::controller(CartController::class)->group(function () {
     Route::get('/get-cart-course', 'GetCartCourse');
     Route::get('/cart-remove/{rowId}', 'cartRemove');
 });
+
+Route::post('/coupon-apply', [CartController::class, 'CouponApply']);
+Route::get('/coupon-calculation', [CartController::class, 'CouponCalculation']);
+Route::get('/coupon-remove', [CartController::class, 'CouponRemove']);
  ///// End Route accessable for All //////////
