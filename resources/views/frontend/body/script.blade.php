@@ -385,12 +385,12 @@
                 <div class="divider"><span></span></div>
                 <ul class="generic-list-item pb-4">
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Subtotal: RWF</span>
-                        <span> ${data.total} </span>
+                        <span class="text-black">Subtotal:</span>
+                        <span> ${data.total} RWF</span>
                     </li>
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
-                        <span class="text-black">Total: RWF</span>
-                        <span> ${data.total}</span>
+                        <span class="text-black">Total:x</span>
+                        <span> ${data.total} RWF</span>
                     </li>
                 </ul>`
                      )
@@ -402,7 +402,7 @@
                 <ul class="generic-list-item pb-4">
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                         <span class="text-black">Subtotal: </span>
-                        <span>RWF ${data.subtotal} </span>
+                        <span>${data.subtotal} RWF </span>
                     </li>
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                         <span class="text-black">Coupon Name : </span>
@@ -412,11 +412,11 @@
                     </li>
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                         <span class="text-black">Coupon Discount:</span>
-                        <span> RWF ${data.discount_amount}</span>
+                        <span>${data.discount_amount} RWF </span>
                     </li>
                     <li class="d-flex align-items-center justify-content-between font-weight-semi-bold">
                         <span class="text-black">Grand Total:</span>
-                        <span> RWF ${data.total_amount}</span>
+                        <span>${data.total_amount} RWF </span>
                     </li> 
                 </ul>`
                      )

@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->where('email', 'admin@gmail.com')->update([
+        DB::table('users')->where('email', 'ndbonane@gmail.com')->update([
             'password' => Hash::make('111'),
         ]);
 

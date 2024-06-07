@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Orderconfirm;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Coupon;
@@ -10,12 +11,15 @@ use App\Models\Course;
 use App\Models\Course_goal;
 use App\Models\CourseLecture;
 use App\Models\CourseSection;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -183,4 +187,104 @@ class CartController extends Controller
         Session::forget('coupon');
         return response()->json(['success' => 'Coupon Remove Successfully']);
     } // End Method 
+
+    public function CheckoutCreate()
+    {
+
+        if (Auth::check()) {
+
+            if (Cart::total() > 0) {
+                $carts = Cart::content();
+                $cartTotal = Cart::total();
+                $cartQty = Cart::count();
+
+                return view('frontend.checkout.checkout_view', compact('carts', 'cartTotal', 'cartQty'));
+            } else {
+
+                $notification = array(
+                    'message' => 'Add At list One Course',
+                    'alert-type' => 'error'
+                );
+                return redirect()->to('/')->with($notification);
+            }
+        } else {
+
+            $notification = array(
+                'message' => 'You Need to Login First',
+                'alert-type' => 'error'
+            );
+            return redirect()->route('login')->with($notification);
+        }
+    } // End Method 
+
+    public function Payment(Request $request)
+    {
+        if (Session::has('coupon')) {
+            $total_amount = Session::get('coupon')['total_amount'];
+        } else {
+            $total_amount = round(Cart::total());
+        }
+        // Cerate a new Payment Record 
+        $data = new Payment();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+        $data->address = $request->address;
+        $data->cash_delivery = $request->cash_delivery;
+        $data->total_amount = $total_amount;
+        $data->payment_type = 'Direct Payment';
+
+        $data->invoice_no = 'EOS' . mt_rand(10000000, 99999999);
+        $data->order_date = Carbon::now()->format('d F Y');
+        $data->order_month = Carbon::now()->format('F');
+        $data->order_year = Carbon::now()->format('Y');
+        $data->status = 'pending';
+        $data->created_at = Carbon::now();
+        $data->save();
+        foreach ($request->course_title as $key => $course_title) {
+
+            $existingOrder = Order::where('user_id', Auth::user()->id)->where('course_id', $request->course_id[$key])->first();
+            if ($existingOrder) {
+                $notification = array(
+                    'message' => 'You Have already enrolled in this course',
+                    'alert-type' => 'error'
+                );
+                return redirect()->back()->with($notification);
+            } // end if 
+            $order = new Order();
+            $order->payment_id = $data->id;
+            $order->user_id = Auth::user()->id;
+            $order->course_id = $request->course_id[$key];
+            $order->instructor_id = $request->instructor_id[$key];
+            $order->course_title = $course_title;
+            $order->price = $request->price[$key];
+            $order->save();
+        } // end foreach 
+        $request->session()->forget('cart');
+        $paymentId = $data->id;
+
+        /// Start Send email to student ///
+        $sendmail = Payment::find($paymentId);
+        $data = [
+            'invoice_no' => $sendmail->invoice_no,
+            'amount' => $total_amount,
+            'name' => $sendmail->name,
+            'email' => $sendmail->email,
+        ];
+
+        Mail::to($request->email)->send(new Orderconfirm($data));
+
+
+        /// End Send email to student /// 
+        if ($request->cash_delivery == 'stripe') {
+            echo "stripe";
+        } else {
+            $notification = array(
+                'message' => 'Cash Payment Submit Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('index')->with($notification);
+        }
+    } // End Method 
+
 }
