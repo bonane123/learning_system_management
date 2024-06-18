@@ -38,7 +38,16 @@ class WishListController extends Controller
 
     public function GetWishlistCourse()
     {
+        $userID = Auth::user()->id;
         $wishlist = WishList::with('course')->where('user_id', Auth::id())->latest()->get();
-        return response()->json(['wishlist' => $wishlist]);
+        $wishQty = WishList::where('user_id', $userID)->count();
+        return response()->json(['wishlist' => $wishlist, 'wishQty' => $wishQty]);
     }
+
+    public function RemoveWishlist($id)
+    {
+
+        Wishlist::where('user_id', Auth::id())->where('id', $id)->delete();
+        return response()->json(['success' => 'Successfully Course Remove']);
+    } // End Method 
 }
