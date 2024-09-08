@@ -1,8 +1,10 @@
 @extends('frontend.master')
 @section('home')
     <!-- ================================
-                                                                                                    START BREADCRUMB AREA
-                                                                                                ================================= -->
+            @php
+                dd($categories);
+            @endphp                                                                                        START BREADCRUMB AREA
+                                                                                                        ================================= -->
     <section class="breadcrumb-area section-padding img-bg-2">
         <div class="overlay"></div>
         <div class="container">
@@ -19,12 +21,12 @@
         </div><!-- end container -->
     </section><!-- end breadcrumb-area -->
     <!-- ================================
-                                                                                                    END BREADCRUMB AREA
-                                                                                                ================================= -->
+                                                                                                            END BREADCRUMB AREA
+                                                                                                        ================================= -->
 
     <!--======================================
-                                                                                                        START COURSE AREA
-                                                                                                ======================================-->
+                                                                                                                START COURSE AREA
+                                                                                                        ======================================-->
     <section class="course-area section--padding">
         <div class="container">
             <div class="filter-bar mb-4">
@@ -73,6 +75,7 @@
                                 <h3 class="card-title fs-18 pb-2">Course Categories</h3>
                                 <div class="divider"><span></span></div>
                                 <ul class="generic-list-item">
+
                                     @foreach ($categories as $category)
                                         <li><a
                                                 href="{{ url('category/' . $category->id . '/' . $category->category_slug) }}">{{ $category->category_name }}</a>
