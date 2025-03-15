@@ -18,7 +18,7 @@
                 <path
                     d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z" />
             </svg> My Profile</a></li>
-    <li><a href="dashboard-courses.html"><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="18px"
+    <li><a href="{{ route('my.course') }}"><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="18px"
                 viewBox="0 0 24 24" width="18px">
                 <path d="M0 0h24v24H0V0z" fill="none" />
                 <path
@@ -40,12 +40,12 @@
                 <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z" />
             </svg> Wishlist <span class="badge badge-info p-1 ml-2" id="wishQty"></span></a></li>
 
-    <li><a href="dashboard-message.html"><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="18px"
+    <li><a href="{{ route('live.chat') }}"><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="18px"
                 viewBox="0 0 24 24" width="18px">
                 <path d="M0 0h24v24H0V0z" fill="none" />
                 <path
                     d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" />
-            </svg> Message <span class="badge badge-info p-1 ml-2">2</span></a></li>
+            </svg> Live Chat <span class="badge badge-info p-1 ml-2">2</span></a></li>
     <li><a href="dashboard-reviews.html"><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="18px"
                 viewBox="0 0 24 24" width="18px">
                 <path d="M0 0h24v24H0V0z" fill="none" />

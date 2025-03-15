@@ -14,6 +14,8 @@ use App\Models\CourseSection;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\SubCategory;
+use App\Models\User;
+use App\Notifications\OrderComplete;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
@@ -21,6 +23,7 @@ use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Notification;
 
 class CartController extends Controller
 {
@@ -70,6 +73,58 @@ class CartController extends Controller
         }
         return response()->json(['success' => 'Successfully Added on Your Cart']);
     }
+
+
+    public function BuyToCart(Request $request, $id)
+    {
+
+        $course = Course::find($id);
+
+        // Check if the course is already in the cart
+        $cartItem = Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $cartItem->id === $id;
+        });
+
+        if ($cartItem->isNotEmpty()) {
+            return response()->json(['error' => 'Course is already in your cart']);
+        }
+
+        if ($course->discount_price == NULL) {
+
+            Cart::add([
+                'id' => $id,
+                'name' => $request->course_name,
+                'qty' => 1,
+                'price' => $course->selling_price,
+                'weight' => 1,
+                'options' => [
+                    'image' => $course->course_image,
+                    'slug' => $request->course_name_slug,
+                    'instructor' => $request->instructor,
+                ],
+            ]);
+        } else {
+
+            Cart::add([
+                'id' => $id,
+                'name' => $request->course_name,
+                'qty' => 1,
+                'price' => $course->discount_price,
+                'weight' => 1,
+                'options' => [
+                    'image' => $course->course_image,
+                    'slug' => $request->course_name_slug,
+                    'instructor' => $request->instructor,
+                ],
+            ]);
+        }
+
+        return response()->json(['success' => 'Successfully Added on Your Cart']);
+    } // End Method 
+
+
+
+
 
     public function CartData()
     {
@@ -164,6 +219,33 @@ class CartController extends Controller
         }
     } // End Method 
 
+    public function InsCouponApply(Request $request)
+    {
+
+        $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))->first();
+
+        if ($coupon) {
+            if ($coupon->course_id == $request->course_id && $coupon->instructor_id == $request->instructor_id) {
+
+                Session::put('coupon', [
+                    'coupon_name' => $coupon->coupon_name,
+                    'coupon_discount' => $coupon->coupon_discount,
+                    'discount_amount' => round(Cart::total() * $coupon->coupon_discount / 100),
+                    'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount / 100)
+                ]);
+
+                return response()->json(array(
+                    'validity' => true,
+                    'success' => 'Coupon Applied Successfully'
+                ));
+            } else {
+                return response()->json(['error' => 'Coupon Criteria Not Met for this course and instructor']);
+            }
+        } else {
+            return response()->json(['error' => 'Invalid Coupon']);
+        }
+    } // End Method 
+
     public function CouponCalculation()
     {
         if (Session::has('coupon')) {
@@ -219,6 +301,7 @@ class CartController extends Controller
 
     public function Payment(Request $request)
     {
+        $user = User::where('role', 'instructor')->get();
         if (Session::has('coupon')) {
             $total_amount = Session::get('coupon')['total_amount'];
         } else {
@@ -272,7 +355,13 @@ class CartController extends Controller
             'email' => $sendmail->email,
         ];
 
+        // dd($data);
+
         Mail::to($request->email)->send(new Orderconfirm($data));
+        /// End Send email to student /// 
+
+        /// Send Notification 
+        Notification::send($user, new OrderComplete($request->name));
 
 
         /// End Send email to student /// 
@@ -286,5 +375,18 @@ class CartController extends Controller
             return redirect()->route('index')->with($notification);
         }
     } // End Method 
+
+    // public function MarkAsRead(Request $request, $notificationId)
+    // {
+
+    //     $user = Auth::user();
+    //     $notification = $user->notifications()->where('id', $notificationId);
+
+    //     if ($notification) {
+    //         $notification->markAsRead();
+    //     }
+    //     return response()->json(['count' => $user->unreadNotifications()->count()]);
+    // } // End Method 
+
 
 }

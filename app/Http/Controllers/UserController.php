@@ -57,7 +57,12 @@ class UserController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        $notification = array(
+            'message' => 'Logout Successfully',
+            'alert-type' => 'info'
+        );
+
+        return redirect('/login')->with($notification);
     } // End Method
 
     public function UserChangePassword()
@@ -91,4 +96,10 @@ class UserController extends Controller
         );
         return back()->with($notification);
     } // End Method
+
+
+    public function LiveChat()
+    {
+        return view('frontend.dashboard.live_chat');
+    } // End Method 
 }

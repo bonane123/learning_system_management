@@ -8,7 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Learning Management</title>
+    <title>ZeroGap Learning </title>
+    <title>@yield('title') </title>
+    @vite(['resources/js/app.js'])
 
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">

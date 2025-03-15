@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--favicon-->
     <link rel="icon" href="{{ asset('backend/assets/images/favicon-32x32.png') }}" type="image/png" />
+    @vite(['resources/js/app.js'])
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--plugins-->
     <link href="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
@@ -67,6 +68,10 @@
     <script src="{{ asset('backend/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('backend/assets/plugins/chartjs/js/chart.js') }}"></script>
     <script src="{{ asset('backend/assets/js/index.js') }}"></script>
+    <script>
+        new PerfectScrollbar('.chat-list');
+        new PerfectScrollbar('.chat-content');
+    </script>
     <!--app JS-->
     <script src="{{ asset('backend/assets/js/app.js') }}"></script>
     <script src="{{ asset('backend/assets/js/validate.min.js') }}"></script>
